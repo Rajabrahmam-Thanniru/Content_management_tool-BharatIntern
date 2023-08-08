@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Content Management Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: sans-serif;
+            font-size: 18px;
+            background-color: #fdfdfd;
+            display: flex;
+            flex-direction: column;
+        }
+        #nofooter {
+            flex: 1 0 auto;
+        }
+        .darkbtn {
+        color: #15223b00;
+    }
+        .dark-mode {
+            background-color: rgb(0, 0, 0);
+            color: white;
+        }
+        #foot {
+            flex-shrink: 0;
+            font-family: sans-serif;
+            background-color: #102a18;
+            color: #e3e6eb;
+            bottom: 0px;
+            width: 100%;
+        }
+        .card-group, .card, .card-footer, .card-body {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="bodydiv">
+        <div id="nofooter">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow" id="topnav">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        <img src="{% static 'logo.png' %}" width="30" height="30" class="d-inline-block rounded align-top" alt="logo" loading="lazy">
+                        Content Management Tool
+                    </a>
+                    <div class="nav justify-content-end">
+                        <span><a class="nav-link text-black font-weight-bold" href="{% url 'create_post' %}">Create New Post</a></span>
+                        {% if user.is_authenticated %}
+                        <span>
+                            {% if user_profile.profile_pic %}
+                                <img src="{{ user_profile.profile_pic.url }}" alt="Profile Picture" width="50" height="50" style="border-radius: 50%;">
+                            {% else %}
+                                <img src="{% static 'default_profile_pic.jpg' %}" alt="Default Profile Picture" width="50" height="50" style="border-radius: 50%;">
+                            {% endif %}
+                            Welcome, {{ user.username }}! <a class="nav-link text-black font-weight-bold" href="{% url 'logout' %}">Logout</a>
+                        </span>
+                    {% else %}
+                        <span><a class="nav-link text-black font-weight-bold" href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></span>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+            <footer class="footer" id="foot">
+                <div class="container">
+                    <h5 style="text-align:center;">Enjoy the Blog and Stay Updated</h5>
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <p>Copyright © Content Management Tool</p>
+                            <div class="nav justify-content-center" id="navfooter">
+                                <span><a class="nav-link text-black font-weight-bold" href="{% url 'about' %}">About</a></span>
+                                <span><a class="nav-link text-black font-weight-bold" href="{% url 'privacy' %}">Privacy</a></span>
+                                <span><a class="nav-link text-black font-weight-bold" href="{% url 'terms' %}">Terms</a></span>
+                                
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

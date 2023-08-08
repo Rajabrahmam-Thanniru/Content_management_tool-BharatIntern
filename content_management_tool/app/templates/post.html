@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block metatags %}
+<title>{{ object.title }}</title>
+<meta name="description" content="{{ object.metades }}" />
+<meta property="og:title" content="{{ object.title }}">
+<meta property="og:site_name" content="GeeksForGeeks">
+<meta property="og:url" content="{% url 'postdetail' object.slug %}">
+<meta property="og:description" content="{{ objectpost_d.metades }}">
+<meta property="og:type" content="article">
+{% endblock %}
+{% block content %}
+<style type="text/css">
+    #container img {
+        border-radius: 29px;
+        width: 100%;
+        height: 360px;
+        opacity: 0.7;
+        align-content: center;
+    }
+    #container img {
+        opacity: 1.0;
+    }
+    a {
+        text-align: center;
+        text-decoration: none;
+    }
+</style>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org/",
+    "@type": "Post",
+    "headline": "{{ object.title }}",
+    "description": "{{ object.metades }}",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{% url 'postdetail' object.slug %}"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "{{ object.author }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Content Management Tool"
+    },
+    "datePublished": "{{ object.created_on }}",
+    "dateModified": "{{ object.created_on }}",
+    "mentions": "{{ object.source }}"
+}
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 left">
+            <h1 class="card-title">{% block title %} {{ object.title }} {% endblock title %}</h1>
+            <p class="text-muted">{{ object.author }} | {{ object.created_on }}</p>
+            <p class="card-text">{{ object.content | safe }}</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
